@@ -5,6 +5,7 @@ import './App.css'
 import Register from './Components/Authpages/Register'
 import Login from './Components/Authpages/Login'
 import AddBook from './Components/BooksPages/AddBook'
+import DeleteBook from './Components/BooksPages/DeleteBook'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,7 +15,8 @@ function App() {
     {/* <Login/> */}
       {/* <Register/>   */}
 
-      <AddBook/>
+      {/* <AddBook/> */}
+      <DeleteBook/>
     </>
   )
 }

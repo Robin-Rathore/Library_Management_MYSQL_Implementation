@@ -4,8 +4,9 @@ import dotenv from 'dotenv';
 import { fetchBooks } from "./db.js";
 import { loginUser, registerUser } from "./controllers/authController.js";
 import { authorize } from "./controllers/roleController.js";
-import { AddBooks } from "./routes/books.js";
+import { AddBooks, DeleteBook } from "./routes/books.js";
 import { queryDatabase } from "./db.js";
+
 dotenv.config();
 const app = express();
 // const cors = require('cors');
@@ -22,8 +23,9 @@ app.use(express.json());
 //REGISTER
 app.post('/register', registerUser);
 
-app.post('/books', AddBooks);
+app.post('/books/add', AddBooks);
 
+app.delete('/books/delete', DeleteBook); 
 //LOGIN
 app.post('/login', loginUser);
 

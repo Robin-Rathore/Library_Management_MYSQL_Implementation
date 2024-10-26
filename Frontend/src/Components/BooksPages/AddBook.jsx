@@ -19,7 +19,7 @@ const AddBook = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            const res = axios.post('http://localhost:3000/books', {
+            const res = axios.post('http://localhost:3000/books/add', {
                 title,
                 author,
                 isbn,
