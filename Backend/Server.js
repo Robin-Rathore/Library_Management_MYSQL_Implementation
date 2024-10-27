@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { fetchBooks } from "./db.js";
 import { loginUser, registerUser } from "./controllers/authController.js";
 import { authorize } from "./controllers/roleController.js";
-import { AddBooks, DeleteBook } from "./routes/books.js";
+import { AddBooks, DeleteBook, GetBooks } from "./routes/books.js";
 import { queryDatabase } from "./db.js";
 
 dotenv.config();
@@ -29,6 +29,7 @@ app.delete('/books/delete', DeleteBook);
 //LOGIN
 app.post('/login', loginUser);
 
+app.get('/getbooks', GetBooks);
 // Protected route for admin
 app.get('/admin', authorize(['admin']), (req, res) => {
     res.send('Admin content');

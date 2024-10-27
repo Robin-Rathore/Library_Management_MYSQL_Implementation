@@ -45,3 +45,30 @@ export const DeleteBook = async (req, res) => {
     }
 };
 
+export const GetBooks = async (req, res) => {
+    const query = `
+        SELECT 
+            title,
+            author,
+            category,
+            published_year,
+            total_copies,
+            edition,
+            book_condition,
+            available_copies,
+            shelf_location,
+            CASE
+                WHEN available_copies > 0 THEN 'Available'
+                ELSE 'Not Available'
+            END AS availability_status
+        FROM books;
+    `;
+
+    try {
+        const books = await queryDatabase(query);
+        res.status(200).json(books);
+    } catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).json({ error: "Failed to retrieve books" });
+    }
+};
