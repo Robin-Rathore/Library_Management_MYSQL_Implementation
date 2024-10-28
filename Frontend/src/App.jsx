@@ -1,27 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Register from './Components/Authpages/Register'
-import Login from './Components/Authpages/Login'
-import AddBook from './Components/BooksPages/AddBook'
-import DeleteBook from './Components/BooksPages/DeleteBook'
-import GetAllBooks from './Components/BooksPages/GetAllBooks'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Register from './Components/Authpages/Register';
+import Login from './Components/Authpages/Login';
+import AddBook from './Components/BooksPages/AddBook';
+import DeleteBook from './Components/BooksPages/DeleteBook';
+import GetAllBooks from './Components/BooksPages/GetAllBooks';
+import SearchBooks from './Components/BooksPages/SearchBooks';
+import ExplorePage from './Components/Home/ExplorePage';
+import Home from './Components/Home/home';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-    {/* <Login/> */}
-      {/* <Register/>   */}
-
-      {/* <AddBook/> */}
-      {/* <DeleteBook/> */}
-
-      <GetAllBooks/>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/add-book" element={<AddBook />} />
+        <Route path="/delete-book" element={<DeleteBook />} />
+        <Route path="/get-all-books" element={<GetAllBooks />} />
+        <Route path="/search-books" element={<SearchBooks />} />
+      </Routes>
+    </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

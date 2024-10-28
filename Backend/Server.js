@@ -4,47 +4,29 @@ import dotenv from 'dotenv';
 import { fetchBooks } from "./db.js";
 import { loginUser, registerUser } from "./controllers/authController.js";
 import { authorize } from "./controllers/roleController.js";
-import { AddBooks, DeleteBook, GetBooks } from "./routes/books.js";
+import { AddBooks, DeleteBook, GetBooks, SearchBook } from "./routes/books.js";
 import { queryDatabase } from "./db.js";
 
 dotenv.config();
 const app = express();
-// const cors = require('cors');
-app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from your frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods (optional)
-    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers (optional)
-}));
 
+app.use(cors({
+    origin: 'http://localhost:5174', // Allow requests from your frontend
+    origin: 'http://localhost:5173', // Allow requests from your frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+}));
 
 // Enable express to parse JSON
 app.use(express.json());
 
-//REGISTER
+// Routes
 app.post('/register', registerUser);
-
 app.post('/books/add', AddBooks);
-
 app.delete('/books/delete', DeleteBook); 
-//LOGIN
 app.post('/login', loginUser);
-
 app.get('/getbooks', GetBooks);
-// Protected route for admin
-app.get('/admin', authorize(['admin']), (req, res) => {
-    res.send('Admin content');
-});
-
-// Books route
-app.get('/books', async (req, res) => {
-    try {
-        const books = await fetchBooks();
-        console.log(books);
-        res.json(books);
-    } catch (error) {
-        res.status(500).json({message: 'Error fetching books', error: error.message});
-    }
-});
+app.get('/searchbooks', SearchBook);
 
 // Start the server
 app.listen(process.env.PORT || 5000, () => {
