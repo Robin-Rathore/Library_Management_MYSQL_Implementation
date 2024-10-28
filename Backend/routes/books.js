@@ -72,3 +72,31 @@ export const GetBooks = async (req, res) => {
         res.status(500).json({ error: "Failed to retrieve books" });
     }
 };
+
+// Search for books
+export const SearchBook = async (req, res) => {
+    const { searchTerm } = req.query;
+    const query = `
+    SELECT 
+    title,
+    author,
+    category,
+    total_copies,
+    available_copies,
+    shelf_location,
+    CASE 
+        WHEN available_copies > 0 THEN 'Available'
+        ELSE 'Not Available'
+    END AS availability_status
+    FROM books
+    WHERE title LIKE ? OR author LIKE ?;
+    `;
+
+    try {
+        const books = await queryDatabase(query, [`%${searchTerm}%`, `%${searchTerm}%`]);
+        res.status(200).json(books);
+    } catch (error) {
+        console.error("Error searching books:", error);
+        res.status(500).json({ error: "Failed to retrieve search results" });
+    }
+}
