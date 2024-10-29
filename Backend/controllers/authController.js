@@ -1,9 +1,8 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import { queryDatabase } from "../db.js";
 import dotenv from 'dotenv';
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 dotenv.config();
-
 
 // REGISTRATION
 export const registerUser = async (req, res) => {
@@ -35,34 +34,70 @@ export const registerUser = async (req, res) => {
     }
 };
 
-
 // LOGIN
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
-    console.log("Email: " + email); // Log the email
-    try {
-        const sql = 'SELECT * FROM users WHERE email = ?'; // Use parameter placeholder
-        console.log("Executing SQL:", sql, "with params:", [email]);
-        const [users] = await queryDatabase(sql, [email]);
 
-        // console.log("Query Result:", users); // Log the result
+    try {
+        const sql = 'SELECT * FROM users WHERE email = ?';
+        const users = await queryDatabase(sql, [email]);
 
         if (!users || users.length === 0) {
-            console.log("User not found for email:", email); // Log for debugging
             return res.status(401).json({ message: "User does not exist, please register" });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, users.password_hash); // Use 'password_hash'
+        const user = users[0]; // Get the first user object
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
 
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        const token = jwt.sign({ userId: users.user_id, role: users.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.user_id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ message: 'Login successful', token });
 
     } catch (error) {
         console.error('Error logging in user:', error.message || error);
         res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+// middleware/auth.js
+export const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Get token from "Bearer <token>"
+
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ message: 'Token is invalid' });
+        req.user = user;
+        next();
+    });
+};
+
+// Check book ownership middleware
+export const checkBookOwner = async (req, res, next) => {
+    const { book_id } = req.params;
+    const user_id = req.user.userId;
+
+    try {
+        const query = "SELECT user_id FROM books WHERE book_id = ?";
+        const result = await queryDatabase(query, [book_id]);
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Book Not Found" });
+        }
+
+        const bookOwnerId = result[0].user_id;
+
+        if (bookOwnerId !== user_id) {
+            return res.status(403).json({ message: "You are not authorized to perform this action" });
+        }
+
+        next(); // User is the owner, proceed to the next middleware/route handler
+    } catch (error) {
+        console.error("Error checking book ownership:", error);
+        res.status(500).json({ error: "Error checking book ownership" });
     }
 };

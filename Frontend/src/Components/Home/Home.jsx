@@ -1,6 +1,8 @@
 // src/components/HomePage.js
 import React from "react";
+import { FaBookOpen, FaEdit, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+// import { FaPlusCircle, FaTrash, FaEdit } from 'react-icons/fa';
 
 const Home = () => {
   return (
@@ -104,6 +106,8 @@ const Home = () => {
               </div>
             </div>
 
+            
+
             {/* Feature Card 3 */}
             <div className="bg-white p-6 rounded-lg shadow-lg text-center relative overflow-hidden">
               <div
@@ -126,7 +130,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-
+                
       <section className="py-16">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center mb-10">
@@ -180,6 +184,87 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+
+           {/* Navigation Section */}
+<section className="py-16 bg-gray-100 text-center">
+  <h2 className="text-4xl font-bold mb-10">Manage Your Library</h2>
+  <div className="flex flex-wrap justify-center gap-8 ">
+    <Link
+      to="/add-book"
+      className="relative w-48 h-48 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 overflow-hidden group"
+    >
+      {/* Background Image and Overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-70"
+        style={{ backgroundImage: `url('https://img.freepik.com/free-photo/top-view-old-books-wooden-table_23-2148781509.jpg')` }}
+      ></div>
+      <div className="absolute inset-0 bg-blue-600 opacity-40 transition duration-300 group-hover:opacity-60"></div>
+
+      {/* Icon and Text */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
+        <FaPlusCircle className="text-6xl mb-3" />
+        <span className="text-2xl font-semibold">Add Book</span>
+      </div>
+    </Link>
+
+    <Link
+      to="/delete-book"
+      className="relative w-48 h-48 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 overflow-hidden group"
+    >
+      {/* Background Image and Overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-70"
+        style={{ backgroundImage: `url('https://img.freepik.com/free-photo/close-up-old-books-black-surface_23-2148781405.jpg')` }}
+      ></div>
+      <div className="absolute inset-0 bg-red-600 opacity-40 transition duration-300 group-hover:opacity-60"></div>
+
+      {/* Icon and Text */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
+        <FaTrash className="text-6xl mb-3" />
+        <span className="text-2xl font-semibold">Delete Book</span>
+      </div>
+    </Link>
+
+    <Link
+      to="/update-book"
+      className="relative w-48 h-48 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 overflow-hidden group"
+    >
+      {/* Background Image and Overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-70"
+        style={{ backgroundImage: `url('https://img.freepik.com/free-photo/books-stack-isolated-white-background_1232-3247.jpg')` }}
+      ></div>
+      <div className="absolute inset-0 bg-yellow-500 opacity-40 transition duration-300 group-hover:opacity-60"></div>
+
+      {/* Icon and Text */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
+        <FaEdit className="text-6xl mb-3" />
+        <span className="text-2xl font-semibold">Update Book</span>
+      </div>
+    </Link>
+
+    <Link
+      to="/explore"
+      className="relative w-48 h-48 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 overflow-hidden group"
+    >
+      {/* Background Image and Overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-70"
+        style={{ backgroundImage: `url('https://img.freepik.com/free-photo/open-book-library_53876-138562.jpg')` }}
+      ></div>
+      <div className="absolute inset-0 bg-green-600 opacity-40 transition duration-300 group-hover:opacity-60"></div>
+
+      {/* Icon and Text */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
+        <FaBookOpen className="text-6xl mb-3" />
+        <span className="text-2xl font-semibold">Explore Library</span>
+      </div>
+    </Link>
+  </div>
+</section>
+
+
 
       {/* Testimonials Section */}
       <section className="py-16 bg-gray-200">

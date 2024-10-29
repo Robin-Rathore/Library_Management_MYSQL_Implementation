@@ -25,21 +25,13 @@ const ExplorePage = () => {
       
     {/* //   </section> */} 
     <div className="flex flex-col items-center mt-[50px]">
-          <h2 className="text-4xl font-bold mb-6">What are you looking for?</h2>
-          <p className="text-lg mb-4 text-justify">
+          <h2 className="text-4xl font-bold mb-6 sm:p-[15px]">What are you looking for?</h2>
+          <p className="text-lg mb-4 text-justify sm:p-[15px]">
             Whether you want to discover a new author, dive into a genre, or find a classic, our library offers an extensive range of books just for you. Start your journey today!
           </p>
           <SearchBooks/>
           </div>
       {/* Books Section */}
-      <section className="py-16 bg-gray-100">
-
-          <div className="flex justify-center mt-6">
-            <a href="#all-books" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-300">
-              See All Books
-            </a>
-          </div>
-      </section>
 
       {/* Authentication Section */}
       <section className="py-16 container mx-auto px-6">
@@ -48,11 +40,11 @@ const ExplorePage = () => {
           Sign up to gain access to exclusive resources, book recommendations, and community events. 
           Join us in our journey of exploration and discovery!
         </p>
-        <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
-          <Link to={"/login"} className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-300">
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+          <Link to={"/login"} className="bg-blue-600 flex items-center justify-center text-white sm:w-[150px] px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-300">
             Login
           </Link>
-          <Link to={"/register"} className="bg-gray-300 text-blue-600 px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-300">
+          <Link to={"/register"} className="bg-gray-300 text-blue-600 flex items-center justify-center  sm:w-[150px] px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-300">
             Sign Up
           </Link>
         </div>

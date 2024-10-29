@@ -1,20 +1,16 @@
 import express from "express";
-import cors from "cors"; // Importing cors
+import cors from "cors";
 import dotenv from 'dotenv';
-import { fetchBooks } from "./db.js";
 import { loginUser, registerUser } from "./controllers/authController.js";
-import { authorize } from "./controllers/roleController.js";
-import { AddBooks, DeleteBook, GetBooks, SearchBook } from "./routes/books.js";
-import { queryDatabase } from "./db.js";
+import { AddBooks,  DeleteBook, GetBooks, SearchBook } from "./routes/books.js";
 
 dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5174', // Allow requests from your frontend
-    origin: 'http://localhost:5173', // Allow requests from your frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+    origin: ['http://localhost:5174', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Enable express to parse JSON
@@ -23,10 +19,21 @@ app.use(express.json());
 // Routes
 app.post('/register', registerUser);
 app.post('/books/add', AddBooks);
-app.delete('/books/delete', DeleteBook); 
+app.delete('/books/:book_id', DeleteBook);
 app.post('/login', loginUser);
 app.get('/getbooks', GetBooks);
 app.get('/searchbooks', SearchBook);
+
+// Error handling for server errors
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Internal Server Error' });
+});
+
+// Handle 404 errors for unknown routes
+app.use((req, res) => {
+    res.status(404).json({ message: 'Route Not Found' });
+});
 
 // Start the server
 app.listen(process.env.PORT || 5000, () => {

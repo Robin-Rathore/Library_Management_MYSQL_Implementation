@@ -12,7 +12,7 @@ const DeleteBook = () => {
         e.preventDefault();
     
         try {
-            const res = await axios.delete('http://localhost:3000/books/delete', {
+            const res = await axios.delete(`${process.env.REACT_APP_BASE_URL}/books/delete`, {
                 params: {
                     title,
                     author,

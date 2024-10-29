@@ -79,11 +79,14 @@ export const SearchBook = async (req, res) => {
     const query = `
     SELECT 
     title,
-    author,
-    category,
-    total_copies,
-    available_copies,
-    shelf_location,
+        author,
+        category,
+        published_year,
+        total_copies,
+        edition,
+        book_condition,
+        available_copies,
+        shelf_location,
     CASE 
         WHEN available_copies > 0 THEN 'Available'
         ELSE 'Not Available'
