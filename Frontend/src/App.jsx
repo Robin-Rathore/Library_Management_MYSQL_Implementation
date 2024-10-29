@@ -6,9 +6,8 @@ import DeleteBook from './Components/BooksPages/DeleteBook';
 import GetAllBooks from './Components/BooksPages/GetAllBooks';
 import SearchBooks from './Components/BooksPages/SearchBooks';
 import ExplorePage from './Components/Home/ExplorePage';
-import Home from './Components/Home/home';
 import UpdateBook from './Components/BooksPages/UpdateBooks';
-import { ChakraProvider } from '@chakra-ui/react';
+import Home from './Components/Home/Home';
 
 function App() {
   return (
