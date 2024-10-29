@@ -6,7 +6,7 @@ const GetAllBooks = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/getbooks')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/getbooks`)
             .then((response) => {
                 setBooks(response.data);
             })

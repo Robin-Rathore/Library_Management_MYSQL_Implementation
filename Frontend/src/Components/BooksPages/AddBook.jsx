@@ -1,8 +1,7 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const AddBook = () => {
-   
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [isbn, setIsbn] = useState('');
@@ -15,11 +14,11 @@ const AddBook = () => {
     const [shelf_location, setShelf_location] = useState('');
     const [edition, setEdition] = useState('');
     const [submitMessage, setSubmitMessage] = useState('');
-    const [errors, setErrors] = useState({});
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const res = axios.post('http://localhost:3000/books/add', {
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/books/add`, {
                 title,
                 author,
                 isbn,
@@ -30,170 +29,66 @@ const AddBook = () => {
                 language,
                 book_condition,
                 shelf_location,
-                edition
+                edition,
             });
-            if (res.data && res.data.message) {
-                setSubmitMessage(res.data.message);
-            } else {
-                setSubmitMessage("Book added successfully!"); // Fallback message
-            }
-        }catch(error) {
-            console.log("Unable to Add book " + error.message);
+            setSubmitMessage(res.data?.message || "Book added successfully!");
+        } catch (error) {
+            console.error("Unable to add book: " + error.message);
         }
-    }
+    };
 
     return (
-        <div className="max-w-lg mx-auto my-10 p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Add a New Book</h2>
-            {submitMessage && <p className="mb-4 text-center text-green-600">{submitMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <label htmlFor="title" className="block text-gray-700">Title</label>
-                    <input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        type="text"
-                        required ='Title is required'
-                        id="title"
-                        className={`mt-2 p-2 w-full border rounded ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="author" className="block text-gray-700">Author</label>
-                    <input
-                        value={author}
-                        onChange={(e) => setAuthor(e.target.value)}
-                        type="text"
-                        id="author"
-                        required ='Author is required'
-                        className={`mt-2 p-2 w-full border rounded ${errors.author ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.author && <p className="text-red-500 text-sm">{errors.author.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="isbn" className="block text-gray-700">ISBN</label>
-                    <input
-                        value={isbn}
-                        onChange={(e) => setIsbn(e.target.value)}
-                        type="text"
-                        id="isbn"
-                        required ='ISBN is required'
-                        className={`mt-2 p-2 w-full border rounded ${errors.isbn ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.isbn && <p className="text-red-500 text-sm">{errors.isbn.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="category" className="block text-gray-700">Category</label>
-                    <input
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        type="text"
-                        id="category"
-                        required ='Category is required'
-                        className={`mt-2 p-2 w-full border rounded ${errors.category ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="total_copies" className="block text-gray-700">Total Copies</label>
-                    <input
-                        type="number"
-                        value={total_copies}
-                        onChange={(e) => setTotal_copies(e.target.value)}
-                        required ='Total copies are required'
-                        id="total_copies"
-                        className={`mt-2 p-2 w-full border rounded ${errors.total_copies ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.total_copies && <p className="text-red-500 text-sm">{errors.total_copies.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="available_copies" className="block text-gray-700">Available Copies</label>
-                    <input
-                        value={available_copies}
-                        onChange={(e) => setAvailable_copies(e.target.value)}
-                        type="number"
-                        id="available_copies"
-                        required = 'Available copies are required'
-                        className={`mt-2 p-2 w-full border rounded ${errors.available_copies ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.available_copies && <p className="text-red-500 text-sm">{errors.available_copies.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="published_year" className="block text-gray-700">Published Year</label>
-                    <input
-                        value={published_year}
-                        onChange={(e) => setPublished_year(e.target.value)}
-                        type="number"
-                        required = "Publisehd Year is Required"
-                        id="published_year"
-                        className={`mt-2 p-2 w-full border rounded ${errors.published_year ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.published_year && <p className="text-red-500 text-sm">{errors.published_year.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="language" className="block text-gray-700">Language</label>
-                    <input
-                        value={language}
-                        onChange={(e) => setLanguage(e.target.value)}
-                        type="text"
-                        required = 'Language is required' 
-                        id="language"
-                        className={`mt-2 p-2 w-full border rounded ${errors.language ? 'border-red-500' : 'border-gray-300'}`}
-                    />
-                    {errors.language && <p className="text-red-500 text-sm">{errors.language.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="edition" className="block text-gray-700">Edition</label>
-                    <input
-                        value={edition}
-                        onChange={(e) => setEdition(e.target.value)}
-                        type="text"
-                        id="edition"
-                        className="mt-2 p-2 w-full border rounded border-gray-300"
-                    />
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="book_condition" className="block text-gray-700">Condition</label>
-                    <select
-                        value={book_condition}
-                        onChange={(e) => setBook_condition(e.target.value)}
-                        id="book_condition"
-                        required = 'Book condition is required'
-                        className={`mt-2 p-2 w-full border rounded ${errors.book_condition ? 'border-red-500' : 'border-gray-300'}`}
-                    >
-                        <option value="">Select condition</option>
-                        <option value="new">New</option>
-                        <option value="used">Used</option>
-                        <option value="damaged">Damaged</option>
-                    </select>
-                    {errors.book_condition && <p className="text-red-500 text-sm">{errors.book_condition.message}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="shelf_location" className="block text-gray-700">Shelf Location</label>
-                    <input
-                        value={shelf_location}
-                        onChange={(e) => setShelf_location(e.target.value)}
-                        type="text"
-                        id="shelf_location"
-                        className="mt-2 p-2 w-full border rounded border-gray-300"
-                    />
-                </div>
-
-                <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                    Add Book
-                </button>
-            </form>
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+                <h2 className="text-2xl font-bold text-center mb-6">Add a New Book</h2>
+                <form onSubmit={handleSubmit}>
+                    {[
+                        { label: 'Book Title', value: title, setValue: setTitle, type: 'text', id: 'title', required: true },
+                        { label: 'Author', value: author, setValue: setAuthor, type: 'text', id: 'author', required: true },
+                        { label: 'ISBN', value: isbn, setValue: setIsbn, type: 'text', id: 'isbn', required: true },
+                        { label: 'Category', value: category, setValue: setCategory, type: 'text', id: 'category', required: true },
+                        { label: 'Total Copies', value: total_copies, setValue: setTotal_copies, type: 'number', id: 'total_copies', required: true },
+                        { label: 'Available Copies', value: available_copies, setValue: setAvailable_copies, type: 'number', id: 'available_copies', required: true },
+                        { label: 'Published Year', value: published_year, setValue: setPublished_year, type: 'number', id: 'published_year', required: true },
+                        { label: 'Language', value: language, setValue: setLanguage, type: 'text', id: 'language', required: true },
+                        { label: 'Edition', value: edition, setValue: setEdition, type: 'text', id: 'edition' },
+                        { label: 'Shelf Location', value: shelf_location, setValue: setShelf_location, type: 'text', id: 'shelf_location' },
+                    ].map(({ label, value, setValue, type, id, required }) => (
+                        <div key={id} className="relative mb-4">
+                            <input
+                                value={value}
+                                onChange={(e) => setValue(e.target.value)}
+                                type={type}
+                                id={id}
+                                required={required}
+                                className="peer block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-500 transition duration-200"
+                                placeholder=" "
+                            />
+                            <label htmlFor={id} className="absolute left-3 top-2.5 text-gray-500 transform transition-all duration-200 ease-in-out peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-base peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:text-sm">
+                                {label}
+                            </label>
+                        </div>
+                    ))}
+                    <div className="mb-4">
+                        <label htmlFor="book_condition" className="block mb-1 text-gray-700">Condition</label>
+                        <select
+                            value={book_condition}
+                            onChange={(e) => setBook_condition(e.target.value)}
+                            id="book_condition"
+                            required
+                            className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-500"
+                        >
+                            <option value="new">New</option>
+                            <option value="used">Used</option>
+                            <option value="damaged">Damaged</option>
+                        </select>
+                    </div>
+                    <button type="submit" className="w-full py-2 bg-purple-500 text-white font-bold rounded-md hover:bg-purple-600 transition duration-200">
+                        Add Book
+                    </button>
+                </form>
+                {submitMessage && <p className="mt-4 text-center text-green-500">{submitMessage}</p>}
+            </div>
         </div>
     );
 };

@@ -1,0 +1,64 @@
+.book-cover {
+    background-image: url('https://example.com/book-cover-bg.png'); /* Replace with your book cover image URL */
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 5px solid #6B7280; /* Gray border for the book */
+    border-radius: 15px;
+    padding: 20px;
+    width: 400px; /* Adjust width to fit your needs */
+    margin: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.book-title {
+    text-align: center;
+    font-size: 24px;
+    color: #1F2937; /* Dark gray */
+    margin-bottom: 20px;
+}
+
+.book-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #1F2937; /* Dark gray */
+}
+
+input, select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #9CA3AF; /* Gray border */
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #3B82F6; /* Tailwind's blue-500 */
+}
+
+.submit-button {
+    padding: 10px;
+    background-color: #3B82F6; /* Tailwind's blue-500 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #2563EB; /* Tailwind's blue-600 */
+}
+
+.success-message {
+    text-align: center;
+    color: #22C55E; /* Tailwind's green-500 */
+    margin-top: 15px;
+}
