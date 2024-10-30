@@ -13,7 +13,7 @@ const SearchBooks = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/searchbooks?searchTerm=${searchTerm}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}searchbooks?searchTerm=${searchTerm}`);
                 setBooks(response.data);
                 setFilteredBooks(response.data); // Initially display all books
             } catch (error) {
