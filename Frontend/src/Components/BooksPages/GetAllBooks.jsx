@@ -6,7 +6,7 @@ const GetAllBooks = () => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}getbooks`)
+        axios.get(`https://librarysystembackend-production.up.railway.app/getbooks`)
             .then((response) => {
                 setBooks(response.data);
             })
