@@ -8,6 +8,7 @@ import SearchBooks from './Components/BooksPages/SearchBooks';
 import ExplorePage from './Components/Home/ExplorePage';
 import UpdateBook from './Components/BooksPages/UpdateBooks';
 import Home from './Components/Home/Home';
+import OTPVerification from './Components/Authpages/OTPVerification';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/otp-verification" element={<OTPVerification />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

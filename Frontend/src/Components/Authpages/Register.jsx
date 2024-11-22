@@ -32,7 +32,8 @@ const Register = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:3000/register', {
+      // Register user
+      const res = await axios.post('https://librarysystembackend-production.up.railway.app/register', {
         name,
         email,
         password,
@@ -40,8 +41,13 @@ const Register = () => {
         membership_type: membershipType
       });
       console.log(res.data.message);
-      // Redirect to login or dashboard after successful registration
-      navigate('/login'); // Change the path to your desired route
+
+      // Request OTP
+      const otpRes = await axios.post('https://librarysystembackend-production.up.railway.app/request-otp', { email });
+      console.log(otpRes.data);
+
+      // Redirect to OTP verification page with OTP ID (if provided)
+      navigate('/otp-verification', { state: { email, otpId: otpRes.data.otpId } });
     } catch (error) {
       if (error.response) {
         setError("Unable to Register: " + error.response.data.message);
@@ -65,7 +71,6 @@ const Register = () => {
         {error && <div className="text-red-500 text-center">{error}</div>}
 
         <form method="POST" className="space-y-4" onSubmit={handleRegister}>
-          {/* Full Name Input */}
           <div>
             <label htmlFor="fullName" className="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
             <input
@@ -79,7 +84,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Membership Type Input */}
           <div>
             <label htmlFor="membership_type" className="block mb-2 text-sm font-medium text-gray-700">Membership Type</label>
             <select
@@ -90,11 +94,9 @@ const Register = () => {
             >
               <option value="regular">Regular</option>
               <option value="premium">Premium</option>
-              {/* Add more membership types as needed */}
             </select>
           </div>
 
-          {/* Email Input */}
           <div>
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">Your Email</label>
             <input
@@ -108,7 +110,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Password Input */}
           <div>
             <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-700">Password</label>
             <div className="relative">
@@ -130,7 +131,6 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Confirm Password Input */}
           <div>
             <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>
             <div className="relative">
@@ -152,21 +152,19 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Sign Up Button */}
           <button
             type="submit"
-            className={`w-full px-4 py-2 font-bold text-white bg-SecondaryColor rounded-lg hover:bg-DarkColor transition-colors duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`w-full px-4 py-2 font-bold text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 transition-colors duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={loading}
           >
             {loading ? 'Signing Up...' : 'Sign Up'}
           </button>
         </form>
 
-        {/* Already have an account */}
         <div className="text-center text-sm text-gray-600">
           <p>
             Already have an account?{" "}
-            <Link to="/login" className="text-SecondaryColor hover:underline">Sign In</Link>
+            <Link to="/login" className="text-indigo-500 hover:underline">Sign In</Link>
           </p>
         </div>
       </div>
