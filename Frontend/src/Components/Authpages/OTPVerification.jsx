@@ -7,7 +7,7 @@ import axios from "axios";
 const OTPVerification = () => {
   const navigate = useNavigate();
   const location = useLocation(); // Access location state
-  const { email, otpId } = location.state || {}; // Extract email and otpId
+  const { email, otpId } = location.state; // Extract email and otpId
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -15,8 +15,8 @@ const OTPVerification = () => {
   useEffect(() => {
     // Make sure email and otpId are passed properly
     if (!email || !otpId) {
-      navigate("/"); // Navigate to home if state is missing
-    }
+        navigate("/register", { state: { error: "OTP verification failed. Please try again." } });
+      }      
   }, [email, otpId, navigate]);
 
   const handleChange = (value, index) => {
@@ -39,9 +39,8 @@ const OTPVerification = () => {
 
     try {
       const response = await axios.post("https://librarysystembackend-production.up.railway.app/verify-otp", {
+        email,
         otp: otpCode,
-        otpId, // Include otpId in the request
-        email, // Include email in the request
       });
 
       if (response.data.success) {
